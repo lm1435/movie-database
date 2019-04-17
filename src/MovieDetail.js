@@ -12,7 +12,7 @@ export default class MovieDetail extends Component {
 
   async componentDidMount() {
     try {
-      const res = await fetch(`https://ai.themoviedb.org/3/movie/${this.props.match.params.id}?api_key=9725571b96179202ebd3830a5ee14d01&language=en-US`);
+      const res = await fetch(`https://api.themoviedb.org/3/movie/${this.props.match.params.id}?api_key=9725571b96179202ebd3830a5ee14d01&language=en-US`);
       const movie = await res.json();
       this.setState({
         movie,
