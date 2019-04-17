@@ -8,10 +8,11 @@ const Movie = ({
   movie: {
     title,
     poster_path: posterPath,
+    id,
   },
 }) => (
   <div>
-    <Link to={`/${title}`}>
+    <Link to={`/${id}`}>
       <img src={`${POSTER_PATH}${posterPath}`} alt={`${title} Movie Poster`} />
     </Link>
   </div>
