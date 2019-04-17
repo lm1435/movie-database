@@ -21,35 +21,37 @@ export default class MoviesList extends Component {
   state = {
     movies: [],
     error: null,
+    isLoading: true,
   }
 
   async componentDidMount() {
-    try {
-      const res = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=9725571b96179202ebd3830a5ee14d01&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1');
-      const movies = await res.json();
-      this.setState({
-        movies: movies.results,
+    const movies = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=9725571b96179202ebd3830a5ee14d01&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1')
+      .then(res => res.json())
+      .catch((error) => {
+        console.log('error', error); // eslint-disable-line no-console
+        this.setState({ error, isLoading: false });
       });
-    } catch (e) {
-      console.log(e); // eslint-disable-line no-console
-      this.setState({
-        error: true,
-      });
-    }
+    this.setState({
+      movies: movies.results,
+      isLoading: false,
+    });
   }
 
   render() {
-    const { error, movies } = this.state;
+    const { error, movies, isLoading } = this.state;
+
     return (
-      <MovieGrid>
-        {!error
+      <React.Fragment>
+        {(!isLoading && movies.length)
           ? (
-            <React.Fragment>
-              {movies.map(movie => <Movie key={movie.id} movie={movie} />)}
-            </React.Fragment>
+            <MovieGrid>
+              <React.Fragment>
+                {movies.map(movie => <Movie key={movie.id} movie={movie} />)}
+              </React.Fragment>
+            </MovieGrid>
           )
-          : <p>An Error Occured Please Try Again.</p>}
-      </MovieGrid>
+          : <p>{error}</p>}
+      </React.Fragment>
     );
   }
 }

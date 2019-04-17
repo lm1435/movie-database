@@ -11,22 +11,17 @@ const BACKDROP_PATH = 'https://image.tmdb.org/t/p/w1280';
 export default class MovieDetail extends Component {
   state = {
     movie: {},
-    error: null,
+    error: '',
   }
 
   async componentDidMount() {
-    try {
-      const res = await fetch(`https://api.themoviedb.org/3/movie/${this.props.match.params.id}?api_key=9725571b96179202ebd3830a5ee14d01&language=en-US`);
-      const movie = await res.json();
-      this.setState({
-        movie,
+    const movie = await fetch(`https://api.themoviedb.org/3/movie/${this.props.match.params.id}?api_key=9725571b96179202ebd3830a5ee14d01&language=en-US`)
+      .then(res => res.json())
+      .catch((error) => {
+        this.state({ error });
+        console.log(error); // eslint-disable-line no-console
       });
-    } catch (e) {
-      console.log(e); // eslint-disable-line no-console
-      this.setState({
-        error: true,
-      });
-    }
+    this.setState({ movie });
   }
 
   render() {
@@ -60,8 +55,7 @@ export default class MovieDetail extends Component {
                   </div>
                 </MovieInfo>
               </MovieWrapper>
-            )
-            }
+            )}
           </React.Fragment>
         ) : (
           <ErrorWrapper>
@@ -69,8 +63,7 @@ export default class MovieDetail extends Component {
             {' '}
             <Link to="/">home</Link>
           </ErrorWrapper>
-        )
-        }
+        )}
       </React.Fragment>
     );
   }
@@ -79,8 +72,12 @@ export default class MovieDetail extends Component {
 const MovieWrapper = styled.div`
   position: relative;
   padding-top: 50vh;
-  background: url(${props => props.backdrop}) no-repeat center;
+  background: url(${props => props.backdrop}) no-repeat;
   background-size: cover;
+  @media (max-width:767px) {
+    background-size: contain;
+    padding-top: 25vh;
+  }
 `;
 
 const MovieInfo = styled.div`
@@ -89,21 +86,20 @@ const MovieInfo = styled.div`
   padding: 2rem 10%;
   img {
       position: relative;
+      top: -5rem;
   }
   @media (min-width: 768px) {
     display: flex;
     > div {
       margin-left: 20px;
     }
-    img {
-      top: -5rem;
-    }
   }
   @media (max-width:767px) {
+    height: 100vh;
     img {
       display: flex;
       margin: auto;
-      top: -10vh;
+      top: 0;
     }
   }
 `;
