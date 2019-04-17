@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import Overdrive from 'react-overdrive';
 import { Poster } from './Movie';
+
 
 const POSTER_PATH = 'https://image.tmdb.org/t/p/w154';
 const BACKDROP_PATH = 'https://image.tmdb.org/t/p/w1280';
@@ -36,6 +38,7 @@ export default class MovieDetail extends Component {
         overview,
         poster_path: posterPath,
         backdrop_path: backdropPath,
+        id,
       },
     } = this.state;
     return (
@@ -44,7 +47,9 @@ export default class MovieDetail extends Component {
           ? (
             <MovieWrapper backdrop={`${BACKDROP_PATH}${backdropPath}`}>
               <MovieInfo>
-                <Poster src={`${POSTER_PATH}${posterPath}`} alt={`${title} Movie Poster`} />
+                <Overdrive id={id}>
+                  <Poster src={`${POSTER_PATH}${posterPath}`} alt={`${title} Movie Poster`} />
+                </Overdrive>
                 <div>
                   <h1>{title}</h1>
                   <h3>{releaseDate}</h3>
