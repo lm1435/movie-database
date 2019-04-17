@@ -9,6 +9,10 @@ const MovieGrid = styled.div`
 
   @media(min-width:768px) {
     padding: 1rem;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media(min-width:1268px) {
     grid-template-columns: repeat(6, 1fr);
   }
 
