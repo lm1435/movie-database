@@ -5,6 +5,7 @@ import Movie from './Movie';
 const MovieGrid = styled.div`
   display: grid;
   grid-row-gap: 1rem;
+  padding: 1rem 0;
   grid-template-columns: repeat(2, 1fr);
 
   @media(min-width:768px) {
