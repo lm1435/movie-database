@@ -6,6 +6,7 @@ import {
   Switch,
   Link,
 } from 'react-router-dom';
+
 import MoviesList from './MoviesList';
 import MovieDetail from './MovieDetail';
 

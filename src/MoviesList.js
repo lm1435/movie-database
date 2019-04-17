@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import Movie from './Movie';
 
 export default class MoviesList extends Component {
@@ -25,7 +26,7 @@ export default class MoviesList extends Component {
   render() {
     const { error, movies } = this.state;
     return (
-      <div>
+      <MovieGrid>
         {!error
           ? (
             <React.Fragment>
@@ -33,7 +34,14 @@ export default class MoviesList extends Component {
             </React.Fragment>
           )
           : <p>An Error Occured Please Try Again.</p>}
-      </div>
+      </MovieGrid>
     );
   }
 }
+
+const MovieGrid = styled.div`
+  display: grid;
+  padding: 1rem;
+  grid-template-columns: repeat(6, 1fr);
+  grid-row-gap: 1rem;
+`;
