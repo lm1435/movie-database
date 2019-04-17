@@ -11,6 +11,10 @@ const MovieGrid = styled.div`
     padding: 1rem;
     grid-template-columns: repeat(6, 1fr);
   }
+
+  @media(min-width:1600px) {
+    grid-template-columns: repeat(9, 1fr);
+  }
 `;
 
 export default class MoviesList extends Component {
