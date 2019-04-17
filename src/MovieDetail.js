@@ -65,7 +65,7 @@ export default class MovieDetail extends Component {
               <Link to="/">home</Link>
             </ErrorWrapper>
           )
-      }
+        }
       </React.Fragment>
     );
   }
@@ -74,7 +74,7 @@ export default class MovieDetail extends Component {
 const MovieWrapper = styled.div`
   position: relative;
   padding-top: 50vh;
-  background: url(${props => props.backdrop}) no-repeat;
+  background: url(${props => props.backdrop}) no-repeat center;
   background-size: cover;
 `;
 
@@ -82,14 +82,26 @@ const MovieInfo = styled.div`
   background: white;
   text-align: left;
   padding: 2rem 10%;
-  display: flex;
-  > div {
-    margin-left: 20px;
-  }
   img {
-    position: relative;
-    top: -5rem;
+      position: relative;
   }
+  @media (min-width: 768px) {
+    display: flex;
+    > div {
+      margin-left: 20px;
+    }
+    img {
+      top: -5rem;
+    }
+  }
+  @media (max-width:767px) {
+    img {
+      display: flex;
+      margin: auto;
+      top: -10vh;
+    }
+  }
+
 `;
 
 const ErrorWrapper = styled.p`
