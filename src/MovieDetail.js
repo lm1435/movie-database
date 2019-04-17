@@ -32,6 +32,7 @@ export default class MovieDetail extends Component {
   render() {
     const {
       error,
+      movie,
       movie: {
         title,
         release_date: releaseDate,
@@ -41,30 +42,34 @@ export default class MovieDetail extends Component {
         id,
       },
     } = this.state;
+
     return (
       <React.Fragment>
-        {!error
-          ? (
-            <MovieWrapper backdrop={`${BACKDROP_PATH}${backdropPath}`}>
-              <MovieInfo>
-                <Overdrive id={id}>
-                  <Poster src={`${POSTER_PATH}${posterPath}`} alt={`${title} Movie Poster`} />
-                </Overdrive>
-                <div>
-                  <h1>{title}</h1>
-                  <h3>{releaseDate}</h3>
-                  <p>{overview}</p>
-                </div>
-              </MovieInfo>
-            </MovieWrapper>
-          )
-          : (
-            <ErrorWrapper>
-              This is embarrasing, there was an error. Please go
-              {' '}
-              <Link to="/">home</Link>
-            </ErrorWrapper>
-          )
+        {!error ? (
+          <React.Fragment>
+            {Object.keys(movie).length > 0 && (
+              <MovieWrapper backdrop={`${BACKDROP_PATH}${backdropPath}`}>
+                <MovieInfo>
+                  <Overdrive id={id}>
+                    <Poster src={`${POSTER_PATH}${posterPath}`} alt={`${title} Movie Poster`} />
+                  </Overdrive>
+                  <div>
+                    <h1>{title}</h1>
+                    <h3>{releaseDate}</h3>
+                    <p>{overview}</p>
+                  </div>
+                </MovieInfo>
+              </MovieWrapper>
+            )
+            }
+          </React.Fragment>
+        ) : (
+          <ErrorWrapper>
+            This is embarrasing, there was an error. Please go
+            {' '}
+            <Link to="/">home</Link>
+          </ErrorWrapper>
+        )
         }
       </React.Fragment>
     );
