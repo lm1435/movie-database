@@ -2,6 +2,17 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Movie from './Movie';
 
+const MovieGrid = styled.div`
+  display: grid;
+  grid-row-gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+
+  @media(min-width:768px) {
+    padding: 1rem;
+    grid-template-columns: repeat(6, 1fr);
+  }
+`;
+
 export default class MoviesList extends Component {
   state = {
     movies: [],
@@ -38,14 +49,3 @@ export default class MoviesList extends Component {
     );
   }
 }
-
-const MovieGrid = styled.div`
-  display: grid;
-  grid-row-gap: 1rem;
-  grid-template-columns: repeat(2, 1fr);
-
-  @media(min-width:768px) {
-    padding: 1rem;
-    grid-template-columns: repeat(6, 1fr);
-  }
-`;

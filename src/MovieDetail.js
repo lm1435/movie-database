@@ -101,7 +101,6 @@ const MovieInfo = styled.div`
       top: -10vh;
     }
   }
-
 `;
 
 const ErrorWrapper = styled.p`
