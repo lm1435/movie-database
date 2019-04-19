@@ -22,38 +22,71 @@ const MovieGrid = styled.div`
   }
 `;
 
+const Button = styled.button`
+  display: flex;
+  justify-content: center;
+  margin: 2rem auto;
+  padding: 1rem 2rem;
+  box-shadow: 0 0 35px black;
+  background: #111;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+`;
+
+const URL = 'https://api.themoviedb.org/3/discover/movie?api_key=9725571b96179202ebd3830a5ee14d01&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=';
+const PAGE_PARAM = 1;
+
 export default class MoviesList extends Component {
   state = {
     movies: [],
     error: null,
     isLoading: true,
+    pageNumber: PAGE_PARAM,
   }
 
-  async componentDidMount() {
-    const movies = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=9725571b96179202ebd3830a5ee14d01&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1')
+  componentDidMount() {
+    const { pageNumber } = this.state;
+    this.fetchMoreMovies(pageNumber);
+  }
+
+  fetchMoreMovies = (page) => {
+    const { movies } = this.state;
+    fetch(`${URL}${page}`)
       .then(res => res.json())
-      .catch((error) => {
-        console.log('error', error); // eslint-disable-line no-console
-        this.setState({ error, isLoading: false });
-      });
-    this.setState({
-      movies: movies.results,
-      isLoading: false,
-    });
+      .then((res) => {
+        this.setState({
+          movies: [
+            ...movies,
+            ...res.results,
+          ],
+          isLoading: false,
+        });
+      })
+      .catch(error => this.setState({ error, isLoading: false }));
+  }
+
+  updatePageNumber = (pageNumber) => {
+    this.setState({ pageNumber });
+    this.fetchMoreMovies(pageNumber);
   }
 
   render() {
-    const { error, movies, isLoading } = this.state;
+    const {
+      error, movies, isLoading, pageNumber,
+    } = this.state;
 
     return (
       <React.Fragment>
         {(!isLoading && movies.length)
           ? (
-            <MovieGrid>
-              <React.Fragment>
+            <React.Fragment>
+              <MovieGrid>
                 {movies.map(movie => <Movie key={movie.id} movie={movie} />)}
-              </React.Fragment>
-            </MovieGrid>
+              </MovieGrid>
+              <Button type="button" onClick={() => this.updatePageNumber(pageNumber + 1)}>Keep Searching</Button>
+            </React.Fragment>
           )
           : <p>{error}</p>}
       </React.Fragment>
