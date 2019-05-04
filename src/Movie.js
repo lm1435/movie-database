@@ -10,12 +10,12 @@ const POSTER_PATH = 'https://image.tmdb.org/t/p/w154';
 const Movie = ({
   movie: {
     title,
-    poster_path: posterPath,
     id,
+    poster_path: posterPath,
   },
 }) => (
   <Link to={`/${id}`}>
-    <Overdrive id={id}>
+    <Overdrive id={`${id}`}>
       <Poster src={`${POSTER_PATH}${posterPath}`} alt={`${title} Movie Poster`} />
     </Overdrive>
   </Link>
@@ -24,7 +24,6 @@ const Movie = ({
 Movie.propTypes = {
   movie: PropTypes.shape({
     title: PropTypes.string.isRequired,
-    overview: PropTypes.string,
   }).isRequired,
 };
 

@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import Overdrive from 'react-overdrive';
 import { Poster } from './Movie';
 
-
 const POSTER_PATH = 'https://image.tmdb.org/t/p/w154';
 const BACKDROP_PATH = 'https://image.tmdb.org/t/p/w1280';
+const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
 export default class MovieDetail extends Component {
   state = {
@@ -22,6 +22,11 @@ export default class MovieDetail extends Component {
         console.log(error); // eslint-disable-line no-console
       });
     this.setState({ movie });
+  }
+
+  formatDate = (date) => {
+    const splitDate = date.split('-');
+    return `${month[splitDate[1] - 1]}\u0020 ${`${splitDate[2]},`} \u0020${splitDate[0]}`;
   }
 
   render() {
@@ -45,7 +50,7 @@ export default class MovieDetail extends Component {
             {Object.keys(movie).length > 0 && (
               <MovieWrapper backdrop={`${BACKDROP_PATH}${backdropPath}`}>
                 <MovieInfo>
-                  <Overdrive id={id}>
+                  <Overdrive id={`${id}`}>
                     <Poster src={`${POSTER_PATH}${posterPath}`} alt={`${title} Movie Poster`} />
                   </Overdrive>
                   <div>

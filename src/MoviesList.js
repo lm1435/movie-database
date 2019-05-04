@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import Movie from './Movie';
 
 const MovieGrid = styled.div`
@@ -60,3 +61,22 @@ const MoviesList = ({
 );
 
 export default MoviesList;
+
+MoviesList.propTypes = {
+  state: PropTypes.shape({
+    movies: PropTypes.array.isRequired,
+    error: PropTypes.bool,
+    isLoading: PropTypes.bool.isRequired,
+    pageNumber: PropTypes.number.isRequired,
+  }),
+  updatePageNumber: PropTypes.func.isRequired,
+};
+
+MoviesList.defaultProps = {
+  state: {
+    movies: [{}],
+    error: null,
+    isLoading: true,
+    pageNumber: 1,
+  },
+};

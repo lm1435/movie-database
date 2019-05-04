@@ -7,6 +7,7 @@ import {
   Link,
 } from 'react-router-dom';
 
+import PropTypes from 'prop-types';
 import MoviesList from './MoviesList';
 import MovieDetail from './MovieDetail';
 
@@ -65,3 +66,15 @@ export default class App extends Component {
     );
   }
 }
+
+App.propTypes = {
+  state: PropTypes.shape({
+    movies: PropTypes.array.isRequired,
+  }),
+};
+
+App.defaultProps = {
+  state: {
+    movies: [{}],
+  },
+};
