@@ -36,37 +36,27 @@ const Button = styled.button`
 `;
 
 
-export default class MoviesList extends Component {
-  componentDidMount() {
-    const { pageNumber } = this.props.state;
-    this.props.fetchMoreMovies(pageNumber);
-  }
+const MoviesList = ({
+  updatePageNumber,
+  state: {
+    error,
+    movies,
+    isLoading,
+    pageNumber,
+  },
+}) => (
+  <React.Fragment>
+    {(!isLoading && movies.length)
+      ? (
+        <React.Fragment>
+          <MovieGrid>
+            {movies.map(movie => <Movie key={movie.id} movie={movie} />)}
+          </MovieGrid>
+          <Button type="button" onClick={() => updatePageNumber(pageNumber + 1)}>Keep Searching</Button>
+        </React.Fragment>
+      )
+      : <p>{error}</p>}
+  </React.Fragment>
+);
 
-  render() {
-    // const { fetchMoreMovies, updatePageNumber, state } = this.props;
-    const {
-      updatePageNumber,
-      state: {
-        error,
-        movies,
-        isLoading,
-        pageNumber,
-      },
-    } = this.props;
-
-    return (
-      <React.Fragment>
-        {(!isLoading && movies.length)
-          ? (
-            <React.Fragment>
-              <MovieGrid>
-                {movies.map(movie => <Movie key={movie.id} movie={movie} />)}
-              </MovieGrid>
-              <Button type="button" onClick={() => updatePageNumber(pageNumber + 1)}>Keep Searching</Button>
-            </React.Fragment>
-          )
-          : <p>{error}</p>}
-      </React.Fragment>
-    );
-  }
-}
+export default MoviesList;
