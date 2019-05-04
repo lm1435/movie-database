@@ -21,6 +21,11 @@ export default class App extends Component {
     pageNumber: PAGE_PARAM,
   }
 
+  componentDidMount() {
+    const { pageNumber } = this.state;
+    this.fetchMoreMovies(pageNumber);
+  }
+
   fetchMoreMovies = (page) => {
     const { movies } = this.state;
     fetch(`${URL}${page}`)
