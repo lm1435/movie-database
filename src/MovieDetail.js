@@ -14,28 +14,30 @@ export default class MovieDetail extends Component {
     error: '',
   }
 
-  async componentDidMount() {
-    const movie = await fetch(`https://api.themoviedb.org/3/movie/${this.props.match.params.id}?api_key=9725571b96179202ebd3830a5ee14d01&language=en-US`)
+  componentDidMount() {
+    fetch(`https://api.themoviedb.org/3/movie/${this.props.match.params.id}?api_key=9725571b96179202ebd3830a5ee14d01&language=en-US`)
       .then(res => res.json())
-      .catch((error) => {
-        this.state({ error });
-        console.log(error); // eslint-disable-line no-console
-      });
-    this.setState({ movie });
+      .then(res => this.setState({ movie: res }, this.formatDate))
+      .catch(error => this.state({ error }));
   }
 
-  formatDate = (date) => {
+  formatDate = () => {
+    const {
+      movie: {
+        release_date: date,
+      },
+    } = this.state;
     const splitDate = date.split('-');
-    return `${month[splitDate[1] - 1]}\u0020 ${`${splitDate[2]},`} \u0020${splitDate[0]}`;
+    this.setState({ formattedDate: `${month[splitDate[1] - 1]}\u0020 ${`${splitDate[2]},`} \u0020${splitDate[0]}` });
   }
 
   render() {
     const {
+      formattedDate,
       error,
       movie,
       movie: {
         title,
-        release_date: releaseDate,
         overview,
         poster_path: posterPath,
         backdrop_path: backdropPath,
@@ -55,7 +57,7 @@ export default class MovieDetail extends Component {
                   </Overdrive>
                   <div>
                     <h1>{title}</h1>
-                    <h3>{releaseDate}</h3>
+                    <h3>{formattedDate}</h3>
                     <p>{overview}</p>
                   </div>
                 </MovieInfo>
