@@ -1,35 +1,54 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import Overdrive from 'react-overdrive';
-import { Poster } from './Movie';
+/* eslint-disable react/prop-types */
+/* eslint-disable react/destructuring-assignment */
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import Overdrive from "react-overdrive";
+import { Poster } from "./Movie";
 
-const POSTER_PATH = 'https://image.tmdb.org/t/p/w154';
-const BACKDROP_PATH = 'https://image.tmdb.org/t/p/w1280';
-const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+const POSTER_PATH = "https://image.tmdb.org/t/p/w154";
+const BACKDROP_PATH = "https://image.tmdb.org/t/p/w1280";
+const month = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "June",
+  "July",
+  "Aug",
+  "Sept",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
 export default class MovieDetail extends Component {
   state = {
     movie: {},
-    error: '',
-  }
+    error: "",
+  };
 
   componentDidMount() {
-    fetch(`https://api.themoviedb.org/3/movie/${this.props.match.params.id}?api_key=9725571b96179202ebd3830a5ee14d01&language=en-US`)
-      .then(res => res.json())
-      .then(res => this.setState({ movie: res }, this.formatDate))
-      .catch(error => this.state({ error }));
+    fetch(
+      `https://api.themoviedb.org/3/movie/${this.props.match.params.id}?api_key=9725571b96179202ebd3830a5ee14d01&language=en-US`
+    )
+      .then((res) => res.json())
+      .then((res) => this.setState({ movie: res }, this.formatDate))
+      .catch((error) => this.state({ error }));
   }
 
   formatDate = () => {
     const {
-      movie: {
-        release_date: date,
-      },
+      movie: { release_date: date },
     } = this.state;
-    const splitDate = date.split('-');
-    this.setState({ formattedDate: `${month[splitDate[1] - 1]}\u0020 ${`${splitDate[2]},`} \u0020${splitDate[0]}` });
-  }
+    const splitDate = date.split("-");
+    this.setState({
+      formattedDate: `${
+        month[splitDate[1] - 1]
+      }\u0020 ${`${splitDate[2]},`} \u0020${splitDate[0]}`,
+    });
+  };
 
   render() {
     const {
@@ -53,7 +72,10 @@ export default class MovieDetail extends Component {
               <MovieWrapper backdrop={`${BACKDROP_PATH}${backdropPath}`}>
                 <MovieInfo>
                   <Overdrive id={`${id}`}>
-                    <Poster src={`${POSTER_PATH}${posterPath}`} alt={`${title} Movie Poster`} />
+                    <Poster
+                      src={`${POSTER_PATH}${posterPath}`}
+                      alt={`${title} Movie Poster`}
+                    />
                   </Overdrive>
                   <div>
                     <h1>{title}</h1>
@@ -66,8 +88,7 @@ export default class MovieDetail extends Component {
           </React.Fragment>
         ) : (
           <ErrorWrapper>
-            This is embarrasing, there was an error. Please go
-            {' '}
+            This is embarrasing, there was an error. Please go{" "}
             <Link to="/">home</Link>
           </ErrorWrapper>
         )}
@@ -79,9 +100,9 @@ export default class MovieDetail extends Component {
 const MovieWrapper = styled.div`
   position: relative;
   padding-top: 50vh;
-  background: url(${props => props.backdrop}) no-repeat;
+  background: url(${(props) => props.backdrop}) no-repeat;
   background-size: cover;
-  @media (max-width:767px) {
+  @media (max-width: 767px) {
     background-size: contain;
     padding-top: 25vh;
   }
@@ -92,8 +113,8 @@ const MovieInfo = styled.div`
   text-align: left;
   padding: 2rem 10%;
   img {
-      position: relative;
-      top: -5rem;
+    position: relative;
+    top: -5rem;
   }
   @media (min-width: 768px) {
     display: flex;
@@ -101,7 +122,7 @@ const MovieInfo = styled.div`
       margin-left: 20px;
     }
   }
-  @media (max-width:767px) {
+  @media (max-width: 767px) {
     height: 100vh;
     img {
       display: flex;
